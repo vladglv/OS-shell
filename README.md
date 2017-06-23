@@ -14,4 +14,4 @@ List of features:
 1. Output redirection via ">".
 2. Command piping via "|". Multiple piping is supported.
 3. Background execution of jobs via "&".
-4. All of the items above can be used together in the following order: piping then output redirection then background execution
+4. All of the items above can be used together in the following order: piping then output redirection then background execution.
