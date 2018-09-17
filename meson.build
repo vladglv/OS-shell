@@ -3,6 +3,8 @@ project('os-shell', 'cpp', default_options : ['cpp_std=c++14'], version : '0.2')
 compiler = meson.get_compiler('cpp').get_id()
 
 cc_args = []
+cc_args_exe = []
+ld_args = []
 
 if compiler == 'clang' or compiler == 'gcc'
   cc_args += [
@@ -17,11 +19,12 @@ if compiler == 'clang' or compiler == 'gcc'
     '-pedantic-errors',
     '-fstack-protector-strong'
     ]
+
+  cc_args_exe = cc_args + ['-fPIC']
+  ld_args = ['-static-libstdc++']
 else
   warning('cpp_args is only configured for clang and gcc')
 endif
-
-cc_args_exe = cc_args + ['-fPIC']
 
 message('buildtype=' + get_option('buildtype'))
 
@@ -32,5 +35,5 @@ message('buildtype=' + get_option('buildtype'))
 
 inc_dir = include_directories('include')
 lib = static_library('shell-lib', 'src/shell/shell.cpp', include_directories : inc_dir, cpp_args : cc_args)
-executable('shell', 'src/shell/shell-main.cpp', include_directories : inc_dir, link_with : lib, link_args: ['-static-libstdc++'], cpp_args : cc_args_exe)
+executable('shell', 'src/shell/shell-main.cpp', include_directories : inc_dir, link_with : lib, link_args: ld_args, cpp_args : cc_args_exe)
 
